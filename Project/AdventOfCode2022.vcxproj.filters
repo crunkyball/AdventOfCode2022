@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{14020e36-d0df-471f-b810-0cdbfe5a501d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Days">
+      <UniqueIdentifier>{9101f168-a1c8-4764-8a2f-1bd8307d79f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Days\Day1.cpp">
+      <Filter>Source\Days</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\File.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\Day.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Days\Day1.h">
+      <Filter>Source\Days</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\File.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
