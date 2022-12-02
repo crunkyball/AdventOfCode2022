@@ -1,9 +1,20 @@
 #include <cstdio>
+#include <cstdlib>
 
-#include "Days/Day1.h"
+#define STRINGIFY(x) #x
+#define STR(x) STRINGIFY(x)
+
+#define CURRENT_DAY Day2    //Cos I'm lazy.
+
+#include STR(Days/CURRENT_DAY.h)
 
 int main(int argc, char** argv)
 {
-    Day1 day1;
-    day1.Run();
+    printf("Running " STR(CURRENT_DAY) "...\n");
+    CURRENT_DAY day;
+    day.Run();
+
+    printf("\nDone!\n");
+
+    system("pause");
 }

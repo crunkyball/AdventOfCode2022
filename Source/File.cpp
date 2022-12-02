@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cstring>
 #include <cstdlib>
+#include <utility>
 
 #include "File.h"
 
@@ -22,7 +23,11 @@ File::File(const char* fileName)
 
     fclose(pFile);
 
-    printf(m_Data);
+    //Recalculate the size as the string length as we're dealing with text 
+    //and any CR LF two chars will get converted to a single /n.
+    int strLen = strlen(m_Data);
+    assert(strLen <= m_Size);
+    m_Size = strLen;
 
     m_pFileEnd = m_Data + m_Size;
     m_pFilePos = m_Data;
@@ -33,10 +38,15 @@ File::~File()
     delete[] m_Data;
 }
 
-int File::ReadLineAsNumber()
+int File::ReadLineAsNumber() const
 {
     int num = atoi(m_pFilePos);
     return num;
+}
+
+char File::ReadChar() const
+{
+    return *m_pFilePos;
 }
 
 bool File::IsLineEmpty() const
@@ -45,17 +55,26 @@ bool File::IsLineEmpty() const
     return bEmpty;
 }
 
-void File::NextLine()
+void File::NextLine(int stepSize)
 {
-    while (*m_pFilePos != '\n')
+    while (stepSize-- > 0)
     {
-        if (m_pFilePos == m_pFileEnd)
-            return;
+        while (*m_pFilePos != '\n')
+        {
+            if (m_pFilePos == m_pFileEnd)
+                return;
 
-        m_pFilePos++;
+            m_pFilePos++;
+        }
+
+        m_pFilePos++;   //Move to the next line.
     }
+}
 
-    m_pFilePos++;   //Move to the next line.
+void File::NextChar(int stepSize)
+{
+    m_pFilePos += stepSize;
+    m_pFilePos = std::min(m_pFilePos, m_pFileEnd);
 }
 
 bool File::IsAtEnd() const

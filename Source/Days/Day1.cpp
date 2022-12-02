@@ -56,7 +56,7 @@ namespace
     {
         std::vector<int> elfCarryWeight;
         ReadDataAndSort(pDataFileName, elfCarryWeight);
-        printf("Combined top three: %d", SumTopN(elfCarryWeight, 3));
+        printf("Combined top three: %d\n", SumTopN(elfCarryWeight, 3));
     }
 }
 
