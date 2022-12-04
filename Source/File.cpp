@@ -25,7 +25,7 @@ File::File(const char* fileName)
 
     //Recalculate the size as the string length as we're dealing with text 
     //and any CR LF two chars will get converted to a single /n.
-    int strLen = strlen(m_Data);
+    int strLen = static_cast<int>(strlen(m_Data));
     assert(strLen <= m_Size);
     m_Size = strLen;
 
@@ -47,6 +47,22 @@ int File::ReadLineAsNumber() const
 char File::ReadChar() const
 {
     return *m_pFilePos;
+}
+
+void File::ReadLine(char buffer[], int bufferSize) const
+{
+    int bufPos = 0;
+    for (const char* pChar = m_pFilePos; pChar != m_pFileEnd && *pChar != '\n'; ++pChar)
+    {
+        if (bufPos < (bufferSize - 1))
+        {
+            buffer[bufPos++] = *pChar;
+        }
+        else
+        {
+            assert(0);  //Buffer size too small!
+        }
+    }
 }
 
 bool File::IsLineEmpty() const

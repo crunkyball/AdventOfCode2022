@@ -8,6 +8,7 @@ public:
 
     int ReadLineAsNumber() const;
     char ReadChar() const;
+    void ReadLine(char buffer[], int bufferSize) const;
 
     void NextLine(int stepSize = 1);
     void NextChar(int stepSize = 1);
