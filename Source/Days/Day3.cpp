@@ -81,9 +81,9 @@ namespace
             return 0;
         }
 
-        private:
-            int m_NumElves = 0;
-            std::array<std::vector<char>, 3> m_ElvesItems;
+    private:
+        int m_NumElves = 0;
+        std::array<std::vector<char>, 3> m_ElvesItems;
     };
 
     using Puzzle1RucksackList = std::vector<Puzzle1Rucksack>;

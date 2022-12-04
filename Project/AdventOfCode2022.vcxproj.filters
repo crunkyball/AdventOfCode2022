@@ -24,6 +24,12 @@
     <ClCompile Include="..\Source\Days\Day3.cpp">
       <Filter>Source\Days</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Days\Day4.cpp">
+      <Filter>Source\Days</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Utils.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Day.h">
@@ -40,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Days\Day3.h">
       <Filter>Source\Days</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Days\Day4.h">
+      <Filter>Source\Days</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
