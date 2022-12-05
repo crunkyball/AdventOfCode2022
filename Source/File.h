@@ -9,12 +9,20 @@ public:
     int ReadLineAsNumber() const;
     char ReadChar() const;
     void ReadLine(char buffer[], int bufferSize) const;
+    void ReadLineChars(char buffer[], int numChars, bool addNTC = true) const;
+
+    void Rewind();
 
     void NextLine(int stepSize = 1);
-    void NextChar(int stepSize = 1);
+    void NextChar(int stepSize = 1, bool lineOnly = true);
+
+    void PreviousLine(int stepSize = 1);
+
+    void SetLine(int lineNum);
 
     bool IsLineEmpty() const;
     bool IsAtEnd() const;
+    bool LineContains(char c) const;
 
 private:
     char* m_Data = nullptr;

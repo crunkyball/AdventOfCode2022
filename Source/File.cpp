@@ -51,6 +51,8 @@ char File::ReadChar() const
 
 void File::ReadLine(char buffer[], int bufferSize) const
 {
+    memset(buffer, 0, bufferSize);
+
     int bufPos = 0;
     for (const char* pChar = m_pFilePos; pChar != m_pFileEnd && *pChar != '\n'; ++pChar)
     {
@@ -63,6 +65,26 @@ void File::ReadLine(char buffer[], int bufferSize) const
             assert(0);  //Buffer size too small!
         }
     }
+}
+
+void File::ReadLineChars(char buffer[], int numChars, bool addNTC) const
+{
+    memset(buffer, 0, addNTC ? numChars + 1 : numChars);
+
+    for (int i = 0; i < numChars; ++i)
+    {
+        if (m_pFilePos == m_pFileEnd || m_pFilePos[i] == '\n')
+        {
+            break;
+        }
+
+        buffer[i] = m_pFilePos[i];
+    }
+}
+
+void File::Rewind()
+{
+    m_pFilePos = m_Data;
 }
 
 bool File::IsLineEmpty() const
@@ -87,13 +109,61 @@ void File::NextLine(int stepSize)
     }
 }
 
-void File::NextChar(int stepSize)
+void File::NextChar(int stepSize, bool lineOnly)
 {
-    m_pFilePos += stepSize;
-    m_pFilePos = std::min(m_pFilePos, m_pFileEnd);
+    for (int i = 0; i < stepSize; ++i)
+    {
+        if (m_pFilePos == m_pFileEnd || (lineOnly && *m_pFilePos == '\n'))
+        {
+            break;
+        }
+
+        m_pFilePos++;
+    }
+}
+
+void File::PreviousLine(int stepSize)
+{
+    while (stepSize-- > 0)
+    {
+        for (int i = 0; i < 2; ++i)
+        {
+            do
+            {
+                m_pFilePos--;
+
+                if (m_pFilePos == m_Data)
+                {
+                    return;
+                }
+
+            } while (*m_pFilePos != '\n');
+        }
+
+        m_pFilePos++;
+    }
+}
+
+void File::SetLine(int lineNum)
+{
+    Rewind();
+    NextLine(lineNum);
 }
 
 bool File::IsAtEnd() const
 {
     return m_pFilePos == m_pFileEnd;
+}
+
+bool File::LineContains(char c) const
+{
+    for (const char* pChar = m_pFilePos; pChar != m_pFileEnd && *pChar != '\n'; ++pChar)
+    {
+        if (*pChar == c)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
