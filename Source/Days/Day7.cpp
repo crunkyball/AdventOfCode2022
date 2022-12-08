@@ -6,7 +6,6 @@
 #include "Utils.h"
 #include "Day7.h"
 
-
 namespace
 {
     const char kCommandChar = '$';
