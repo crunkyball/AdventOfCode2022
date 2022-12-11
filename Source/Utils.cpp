@@ -20,7 +20,7 @@ void Utils::SplitString(const char* pString, const char* splitString, char* outL
         {
             if (++splitCharsIdx == splitCharsLen)
             {
-                breakPoint = (pChar - pString) - (splitCharsLen - 1);
+                breakPoint = static_cast<int>((pChar - pString)) - (splitCharsLen - 1);
                 break;
             }
         }

@@ -38,20 +38,20 @@ namespace
             //I imagine there's a better way of doing this...
             if (X > 0.f)
             {
-                X = std::ceil(X / fLen);
+                X = static_cast<int>(std::ceil(X / fLen));
             }
             else if (X < 0.f)
             {
-                X = std::floor(X / fLen);
+                X = static_cast<int>(std::floor(X / fLen));
             }
 
             if (Y > 0.f)
             {
-                Y = std::ceil(Y / fLen);
+                Y = static_cast<int>(std::ceil(Y / fLen));
             }
             else if (Y < 0.f)
             {
-                Y = std::floor(Y / fLen);
+                Y = static_cast<int>(std::floor(Y / fLen));
             }
         }
 
@@ -202,7 +202,7 @@ namespace
         PositionList visitedPositions;
         ProcessInstructionList(instructionList, numNodes, visitedPositions);
 
-        printf("Visited Positions: %d\n", visitedPositions.size());
+        printf("Visited Positions: %zd\n", visitedPositions.size());
     }
 
     void RunPuzzle1(const char* pDataFileName)
