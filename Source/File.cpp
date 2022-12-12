@@ -167,3 +167,22 @@ bool File::LineContains(char c) const
 
     return false;
 }
+
+bool File::LineStartsWith(const char* pStr) const
+{
+    int len = static_cast<int>(strlen(pStr));
+    if (strlen(m_pFilePos) > len)
+    {
+        for (int i = 0; i < len; ++i)
+        {
+            if (m_pFilePos[i] != pStr[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}

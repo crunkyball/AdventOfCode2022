@@ -23,6 +23,7 @@ public:
     bool IsLineEmpty() const;
     bool IsAtEnd() const;
     bool LineContains(char c) const;
+    bool LineStartsWith(const char* pStr) const;
 
 private:
     char* m_Data = nullptr;
