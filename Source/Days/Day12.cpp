@@ -28,9 +28,6 @@ namespace
 
     using Map = std::vector<std::vector<MapEntry>>;
 
-    int mapWidth = 0;
-    int mapHeight = 0;
-
     void ReadDataAndParse(const char* pDataFileName, Map& outMap, MapCoords& outStart, MapCoords& outEnd)
     {
         File file(pDataFileName);

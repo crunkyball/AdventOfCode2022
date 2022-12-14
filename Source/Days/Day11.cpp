@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <functional>
 #include <cassert>
 
 #include "File.h"
@@ -8,7 +9,7 @@
 
 namespace
 {
-    using ItemList = std::vector<int>;
+    using ItemList = std::vector<int64_t>;
 
     enum class OpType
     {
@@ -37,6 +38,7 @@ namespace
     };
 
     using MonkeyList = std::vector<Monkey>;
+    using WorryModifyFunc = std::function<void(int64_t&)>;
 
     void ReadDataAndParse(const char* pFileName, MonkeyList& outMonkeyList)
     {
@@ -157,17 +159,15 @@ namespace
         }
     }
 
-    int FindMonkeyBusiness(MonkeyList& monkeyList)
+    int64_t FindMonkeyBusiness(MonkeyList& monkeyList, int numRounds, const WorryModifyFunc& worryModifyFunc)
     {
-        int numRounds = 20;
-
         for (int i = 0; i < numRounds; ++i)
         {
             for (Monkey& monkey : monkeyList)
             {
                 const OpPair& opPair = monkey.Operation;
 
-                for (int& worryLevel : monkey.Items)
+                for (int64_t worryLevel : monkey.Items)
                 {
                     monkey.InspectedCount++;
 
@@ -187,7 +187,7 @@ namespace
                             break;
                     }
 
-                    worryLevel /= 3;
+                    worryModifyFunc(worryLevel);
 
                     if ((worryLevel % monkey.Test.TestValue) == 0)
                     {
@@ -211,7 +211,8 @@ namespace
 
         std::sort(inspectLevels.begin(), inspectLevels.end(), std::greater<>());
 
-        return inspectLevels[0] * inspectLevels[1];
+        int64_t result = static_cast<int64_t>(inspectLevels[0]) * inspectLevels[1];
+        return result;
     }
 
     void RunPuzzle1(const char* pDataFileName)
@@ -219,21 +220,37 @@ namespace
         MonkeyList monkeyList;
         ReadDataAndParse(pDataFileName, monkeyList);
 
-        int monkeyBusiness = FindMonkeyBusiness(monkeyList);
+        int64_t monkeyBusiness = FindMonkeyBusiness(monkeyList, 20, [](int64_t& worryLevel) {
+            worryLevel /= 3;
+        });
 
-        printf("Monkey Business: %d\n", monkeyBusiness);
+        printf("Monkey Business: %lld\n", monkeyBusiness);
     }
 
     void RunPuzzle2(const char* pDataFileName)
     {
+        MonkeyList monkeyList;
+        ReadDataAndParse(pDataFileName, monkeyList);
+
+        int testValueProduct = 1;
+        for (const Monkey monkey : monkeyList)
+        {
+            testValueProduct *= monkey.Test.TestValue;
+        }
+
+        int64_t monkeyBusiness = FindMonkeyBusiness(monkeyList, 10000, [testValueProduct](int64_t& worryLevel) {
+            worryLevel %= testValueProduct;
+        });
+
+        printf("Monkey Business: %lld\n", monkeyBusiness);
     }
 }
 
 void Day11::Run()
 {
     //RunPuzzle1("Day11_Sample.txt");
-    RunPuzzle1("Day11_Puzzle.txt");
+    //RunPuzzle1("Day11_Puzzle.txt");
 
     //RunPuzzle2("Day11_Sample.txt");
-    //RunPuzzle2("Day11_Puzzle.txt");
+    RunPuzzle2("Day11_Puzzle.txt");
 }
