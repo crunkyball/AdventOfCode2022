@@ -102,7 +102,7 @@ namespace
         }
     }
 
-    int SimulateSand(CaveMap& caveMap, int sourceX, int sourceY, int rockBottom)
+    int SimulateSand(CaveMap& caveMap, int sourceX, int sourceY, int rockBottom, bool rockBottomIsFloor)
     {
         for (int i = 0; ; ++i)
         {
@@ -113,7 +113,7 @@ namespace
             {
                 int nextY = currentY + 1;
 
-                if (nextY > rockBottom)
+                if (nextY > rockBottom && !rockBottomIsFloor)
                 {
                     return i;
                 }
@@ -139,6 +139,11 @@ namespace
                 //Can't move anymore.
                 caveMap[currentY][currentX] = CavePoint::SAND;
 
+                if (currentX == sourceX && currentY == sourceY)
+                {
+                    return i + 1;
+                }
+
                 break;
             }
         }
@@ -146,7 +151,7 @@ namespace
         return -1;
     }
 
-    void RunPuzzle1(const char* pDataFileName)
+    void RunPuzzle(const char* pDataFileName, bool bUseRockBottom)
     {
         static const int kCaveWidth = 1024;
         static const int kCaveHeight = 256;
@@ -178,15 +183,31 @@ namespace
             }
         }
 
-        int stepsToEnd = SimulateSand(caveMap, 500, 0, rockBottom);
+        if (bUseRockBottom)
+        {
+            //Completely cheating.
+            rockBottom += 2;
+            for (int x = 0; x < caveMap[rockBottom].size(); ++x)
+            {
+                caveMap[rockBottom][x] = CavePoint::ROCK;
+            }
+        }
+
+        int stepsToEnd = SimulateSand(caveMap, 500, 0, rockBottom, bUseRockBottom);
 
         printf("Steps to end: %d\n", stepsToEnd);
 
         //DrawMap(caveMap, 494, 0, 10, 10);
     }
 
+    void RunPuzzle1(const char* pDataFileName)
+    {
+        RunPuzzle(pDataFileName, false);
+    }
+
     void RunPuzzle2(const char* pDataFileName)
     {
+        RunPuzzle(pDataFileName, true);
     }
 }
 
@@ -195,6 +216,6 @@ void Day14::Run()
     //RunPuzzle1("Day14_Sample.txt");
     //RunPuzzle1("Day14_Puzzle.txt");
 
-    RunPuzzle2("Day14_Sample.txt");
-    //RunPuzzle2("Day14_Puzzle.txt");
+    //RunPuzzle2("Day14_Sample.txt");
+    RunPuzzle2("Day14_Puzzle.txt");
 }
