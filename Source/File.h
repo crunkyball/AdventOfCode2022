@@ -24,6 +24,7 @@ public:
     bool IsAtEnd() const;
     bool LineContains(char c) const;
     bool LineStartsWith(const char* pStr) const;
+    int LineFind(const char* pStr) const;
 
 private:
     char* m_Data = nullptr;

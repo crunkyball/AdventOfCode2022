@@ -186,3 +186,31 @@ bool File::LineStartsWith(const char* pStr) const
 
     return false;
 }
+
+int File::LineFind(const char* pStr) const
+{
+    int strLen = strlen(pStr);
+    int strIdx = 0;
+    int strFoundLoc = -1;
+    for (const char* pChar = m_pFilePos; *pChar != 0; pChar++)
+    {
+        if (*pChar == pStr[strIdx])
+        {
+            if (strIdx == 0)
+            {
+                strFoundLoc = pChar - m_pFilePos;
+            }
+
+            if (++strIdx == strLen)
+            {
+                return strFoundLoc;
+            }
+        }
+        else
+        {
+            strIdx = 0;
+        }
+    }
+
+    return -1;
+}
